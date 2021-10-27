@@ -35,27 +35,26 @@ class Program {
     // 2. feladat 
     var f = new StreamReader("fuvar.csv");
     var elsosor = f.ReadLine();    
-    var lapok = new List<Fuvar>(); 
+    var lista = new List<Fuvar>(); 
     while(!f.EndOfStream){
-        var  lap = new Fuvar( f.ReadLine() );    
-        lapok.Add(lap);
+        lista.Add(new Fuvar( f.ReadLine() ));
     }
     f.Close();
 
     // 3. feladat: {} fuvar
-    Console.WriteLine($"3. feladat: {lapok.Count} fuvar");
+    Console.WriteLine($"3. feladat: {lista.Count} fuvar");
     
     // 4. feladat: a 6185 -ös fuvarjainak száma és bevétele
     var bevetelek = ( 
-        from lap in lapok 
-        where lap.taxi_id == 6185 
-        select (lap.viteldij + lap.borravalo) 
+        from sor in lista 
+        where sor.taxi_id == 6185 
+        select (sor.viteldij + sor.borravalo) 
         );
 
     Console.WriteLine($"4. feladat: {bevetelek.Count()} fuvar alatt: {bevetelek.Sum()}$");
 
     // 5. feladat: Fizetési statisztika
-    var query = ( from lap in lapok group lap by lap.fizetes_modja );
+    var query = ( from sor in lista group sor by sor.fizetes_modja );
     
     Console.WriteLine(    $"5. feladat:");
     foreach( var q in query ){
@@ -63,11 +62,11 @@ class Program {
     }
     
     // 6. feladat Összes km-ek száma
-    var tavolsagok = ( from lap in lapok select lap.tavolsag * 1.6);
+    var tavolsagok = ( from sor in lista select sor.tavolsag * 1.6);
     Console.WriteLine($"6. feladat: {tavolsagok.Sum():.##}km");
 
     // 7. feladat: Leghosszabb idejű fuvar:
-    var leghosszab_fuvar = (from lap in lapok orderby lap.idotartam select lap).Last();
+    var leghosszab_fuvar = (from sor in lista orderby sor.idotartam select sor).Last();
     Console.WriteLine($"7. feladat:");
     Console.WriteLine($"        Fuvar hossza: {leghosszab_fuvar.idotartam} másodperc:");
     Console.WriteLine($"        Taxi azonosító: {leghosszab_fuvar.taxi_id} ");
@@ -76,10 +75,10 @@ class Program {
     
     // 8. feladat hibak.txt létrehozása
     var hibak = (
-        from lap in lapok
-        where (lap.idotartam > 0) & (lap.viteldij > 0) & (lap.tavolsag == 0)
-        orderby lap.indulas
-        select lap
+        from sor in lista
+        where (sor.idotartam > 0) & (sor.viteldij > 0) & (sor.tavolsag == 0)
+        orderby sor.indulas
+        select sor
     ); 
     var f_hibak = new StreamWriter("Hibak.txt");
     f_hibak.WriteLine(elsosor);
