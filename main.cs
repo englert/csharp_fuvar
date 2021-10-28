@@ -54,7 +54,10 @@ class Program {
     Console.WriteLine($"4. feladat: {bevetelek.Count()} fuvar alatt: {bevetelek.Sum()}$");
 
     // 5. feladat: Fizetési statisztika
-    var query = ( from sor in lista group sor by sor.fizetes_modja );
+    var query = ( 
+        from sor in lista 
+        group sor by sor.fizetes_modja 
+        );
     
     Console.WriteLine(    $"5. feladat:");
     foreach( var q in query ){
@@ -66,7 +69,11 @@ class Program {
     Console.WriteLine($"6. feladat: {tavolsagok.Sum():.##}km");
 
     // 7. feladat: Leghosszabb idejű fuvar:
-    var leghosszab_fuvar = (from sor in lista orderby sor.idotartam select sor).Last();
+    var leghosszab_fuvar = (
+        from sor in lista 
+        orderby sor.idotartam 
+        select sor
+        ).Last();
     Console.WriteLine($"7. feladat:");
     Console.WriteLine($"        Fuvar hossza: {leghosszab_fuvar.idotartam} másodperc:");
     Console.WriteLine($"        Taxi azonosító: {leghosszab_fuvar.taxi_id} ");
