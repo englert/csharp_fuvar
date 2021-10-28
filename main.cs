@@ -65,7 +65,10 @@ class Program {
     }
     
     // 6. feladat Összes km-ek száma
-    var tavolsagok = ( from sor in lista select sor.tavolsag * 1.6);
+    var tavolsagok = ( 
+        from sor in lista 
+        select sor.tavolsag * 1.6
+        );
     Console.WriteLine($"6. feladat: {tavolsagok.Sum():.##}km");
 
     // 7. feladat: Leghosszabb idejű fuvar:
